@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-
-
 @section('content')
     <div class="container py-5">
         <form id="formStruk" action="{{ route('struk.store') }}" method="POST">
