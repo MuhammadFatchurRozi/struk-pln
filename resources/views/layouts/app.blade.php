@@ -207,6 +207,48 @@
             text-overflow: ellipsis;
             /* Potong teks dengan titik-titik jika terlalu panjang */
         }
+
+        @media (max-width: 767.98px) {
+
+            /* Buat baris tabel terlihat seperti kartu terpisah */
+            .responsive-row {
+                display: block;
+                border-bottom: 10px solid #f8fafc;
+                /* Pemisah antar pelanggan */
+                padding: 10px 0;
+            }
+
+            .responsive-row td {
+                display: block;
+                width: 100% !important;
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+                border: none;
+            }
+
+            /* Hilangkan padding berlebih pada input group di mobile */
+            .input-group {
+                max-width: 100%;
+            }
+
+            .shadow-sm-mobile {
+                box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+            }
+        }
+
+        /* Memastikan input admin global juga responsif */
+        .d-flex.justify-content-between.align-items-end {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .d-flex.justify-content-between.align-items-end {
+                flex-direction: row !important;
+                align-items: flex-end !important;
+            }
+        }
     </style>
 </head>
 
