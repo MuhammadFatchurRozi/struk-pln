@@ -74,20 +74,34 @@
                     </table>
                 </div>
 
-                <div class="card-footer bg-white py-4 ps-4 pe-4 d-flex justify-content-between align-items-center">
-                    <span class="text-muted small italic text-decoration-underline">Total baris:
-                        {{ count($pelanggan) }}</span>
-                    <div>
-                        <a href="{{ route('struk.index') }}"
-                            class="btn btn-link text-muted text-decoration-none me-3">Batal</a>
+                <div class="mt-4 border-top pt-4">
+                    <div class="row justify-content-center g-3">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <button type="submit"
+                                class="btn btn-primary w-100 py-2 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 btn-action">
+                                <i class="bi bi-cloud-arrow-up-fill"></i> Simpan & Cetak
+                            </button>
+                        </div>
 
-                        <button type="button" onclick="submitDirect()" class="btn btn-outline-primary px-4 py-2 me-2">
-                            <i class="bi bi-printer me-2"></i>Langsung Cetak
-                        </button>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <button type="submit" name="mode_cetak_saja" value="yes"
+                                class="btn btn-outline-primary w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 btn-action">
+                                <i class="bi bi-printer"></i> Langsung Cetak
+                            </button>
+                        </div>
 
-                        <button type="button" onclick="confirmSave()" class="btn btn-primary px-5 py-2 shadow">
-                            <i class="bi bi-save-fill me-2"></i>Simpan & Cetak
-                        </button>
+                        <div class="col-12 text-center mt-3">
+                            <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
+                                <a href="{{ route('struk.index') }}"
+                                    class="text-muted text-decoration-none fw-medium hover-underline">
+                                    <i class="bi bi-x-circle"></i> Kembali ke Daftar Tagihan
+                                </a>
+                                <span class="d-none d-md-inline text-light-emphasis">|</span>
+                                <small class="text-secondary">
+                                    Total baris data: <span class="fw-bold text-dark">{{ count($pelanggan) }}</span>
+                                </small>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

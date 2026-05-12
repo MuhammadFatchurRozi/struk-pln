@@ -1,16 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container py-10">
-        <!-- Header Section -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h2 class="fw-bold mb-1 text-dark">Master Pelanggan</h2>
-                <p class="text-muted mb-0">Kelola daftar pelanggan tetap untuk tagihan bulanan.</p>
+    <div class="container py-4 py-md-5">
+        <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+            <div class="flex-grow-1">
+                <h2 class="fw-bold mb-1 text-dark fs-3 fs-md-2">Master Pelanggan</h2>
+                <p class="text-muted mb-0 small">Kelola daftar pelanggan tetap untuk tagihan bulanan.</p>
             </div>
-            <button type="button" class="btn btn-primary shadow-sm px-4" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                <i class="bi bi-person-plus-fill me-2"></i>Tambah Pelanggan
-            </button>
+
+            <div class="w-100 w-md-auto text-end">
+                <button type="button"
+                    class="btn btn-primary shadow-sm px-4 py-2 w-100 w-md-auto d-inline-flex align-items-center justify-content-center"
+                    data-bs-toggle="modal" data-bs-target="#modalTambah">
+                    <i class="bi bi-person-plus-fill me-2"></i>
+                    <span class="fw-semibold">Tambah Pelanggan</span>
+                </button>
+            </div>
         </div>
 
         @if (session('success'))
@@ -19,18 +25,17 @@
             </div>
         @endif
 
-        <!-- Table Card -->
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="bg-light">
-                            <tr>
-                                <th class="ps-4 py-3 text-muted" width="80">NO</th>
-                                <th class="text-muted">ID PELANGGAN</th>
-                                <th class="text-muted">NAMA LENGKAP</th>
-                                <th class="text-muted">TARIF / DAYA</th>
-                                <th class="text-muted">STAND METER</th>
+                            <tr class="small text-uppercase">
+                                <th class="ps-4 py-3 text-muted" width="60">NO</th>
+                                <th class="text-muted" style="min-width: 140px;">ID PELANGGAN</th>
+                                <th class="text-muted" style="min-width: 200px;">NAMA LENGKAP</th>
+                                <th class="text-muted" style="min-width: 120px;">TARIF/DAYA</th>
+                                <th class="text-muted" style="min-width: 150px;">STAND METER</th>
                                 <th class="text-center pe-4 text-muted">AKSI</th>
                             </tr>
                         </thead>
@@ -49,11 +54,12 @@
                                     <td class="text-muted small">{{ $p->stand_meter ?? '-' }}</td>
                                     <td class="text-center pe-4">
                                         <div class="dropdown">
-                                            <button class="btn btn-light btn-sm rounded-circle" data-bs-toggle="dropdown">
+                                            <button class="btn btn-light btn-sm rounded-circle p-2"
+                                                data-bs-toggle="dropdown">
                                                 <i class="bi bi-three-dots-vertical"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm rounded-3">
-                                                <li><a class="dropdown-item text-danger" href="#"><i
+                                                <li><a class="dropdown-item text-danger py-2" href="#"><i
                                                             class="bi bi-trash me-2"></i>Hapus</a></li>
                                             </ul>
                                         </div>
@@ -61,10 +67,10 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center py-5">
+                                    <td colspan="6" class="text-center py-5">
                                         <img src="https://illustrations.popsy.co/gray/not-found.svg" alt="empty"
-                                            style="width: 150px;" class="mb-3">
-                                        <p class="text-muted">Belum ada data pelanggan terdaftar.</p>
+                                            style="width: 120px;" class="mb-3">
+                                        <p class="text-muted small">Belum ada data pelanggan terdaftar.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -72,54 +78,59 @@
                     </table>
                 </div>
             </div>
-            <div class="card-footer bg-white py-4 d-flex justify-content-center">
+            <div class="card-footer bg-white py-4 d-flex justify-content-center border-0">
                 {{ $pelanggan->links() }}
             </div>
         </div>
     </div>
 
-    <!-- Modal Multi-Input Modern -->
-    <!-- Modal Multi-Input Modern -->
     <div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered"> <!-- Gunakan xl agar lebih luas -->
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <form action="{{ route('pelanggan.store') }}" method="POST" class="modal-content border-0 shadow-lg rounded-4">
                 @csrf
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="fw-bold text-dark pt-3 ps-3">Daftarkan Pelanggan Baru</h5>
-                    <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header border-0 pb-0 pt-4 px-4">
+                    <h5 class="fw-bold text-dark mb-0">Daftarkan Pelanggan Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
+                    <p class="text-muted small d-md-none mb-3"><i class="bi bi-info-circle me-1"></i> Geser ke samping untuk
+                        mengisi semua kolom.</p>
+
                     <div class="table-responsive">
-                        <table class="table table-borderless align-middle">
-                            <thead>
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead class="d-none d-md-table-header-group">
                                 <tr class="text-muted small">
-                                    <th width="15%">IDPEL</th>
-                                    <th width="25%">NAMA</th>
+                                    <th width="20%">IDPEL</th>
+                                    <th width="30%">NAMA</th>
                                     <th width="20%">TARIF/DAYA</th>
-                                    <th width="30%">STAND METER</th>
-                                    <th width="10%"></th>
+                                    <th width="25%">STAND METER</th>
+                                    <th width="5%"></th>
                                 </tr>
                             </thead>
                             <tbody id="wrapper-pelanggan">
-                                <tr class="row-pelanggan">
-                                    <td>
+                                <tr class="row-pelanggan border-bottom-mobile">
+                                    <td class="pb-3 pb-md-2">
+                                        <label class="small fw-bold text-muted d-md-none mb-1">IDPEL</label>
                                         <input type="text" name="pelanggan[0][idpel]"
-                                            class="form-control bg-light border-0" placeholder="5130..." required>
+                                            class="form-control bg-light border-0 py-2" placeholder="5130..." required>
                                     </td>
-                                    <td>
+                                    <td class="pb-3 pb-md-2">
+                                        <label class="small fw-bold text-muted d-md-none mb-1">NAMA</label>
                                         <input type="text" name="pelanggan[0][nama]"
-                                            class="form-control bg-light border-0" placeholder="Nama Lengkap" required>
+                                            class="form-control bg-light border-0 py-2" placeholder="Nama Lengkap" required>
                                     </td>
-                                    <td>
+                                    <td class="pb-3 pb-md-2">
+                                        <label class="small fw-bold text-muted d-md-none mb-1">TARIF/DAYA</label>
                                         <input type="text" name="pelanggan[0][tarif_daya]"
-                                            class="form-control bg-light border-0" placeholder="R1/450 VA" required>
+                                            class="form-control bg-light border-0 py-2" placeholder="R1/450 VA" required>
                                     </td>
-                                    <td>
+                                    <td class="pb-3 pb-md-2">
+                                        <label class="small fw-bold text-muted d-md-none mb-1">STAND METER</label>
                                         <input type="text" name="pelanggan[0][stand_meter]"
-                                            class="form-control bg-light border-0" placeholder="00015875-00015965">
+                                            class="form-control bg-light border-0 py-2" placeholder="Awal-Akhir">
                                     </td>
-                                    <td class="text-end">
-                                        <button type="button" class="btn btn-primary btn-add">
+                                    <td class="text-end text-md-center">
+                                        <button type="button" class="btn btn-primary btn-add rounded-circle shadow-sm">
                                             <i class="bi bi-plus-lg"></i>
                                         </button>
                                     </td>
@@ -128,13 +139,70 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer border-0 p-4 pt-0">
-                    <button type="button" class="btn btn-light px-4 me-2" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary px-5 shadow-sm">Simpan Pelanggan</button>
+                <div class="modal-footer border-0 p-4 pt-0 d-flex flex-column flex-md-row gap-2">
+                    <button type="button" class="btn btn-light px-4 w-100 w-md-auto"
+                        data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary px-5 shadow-sm w-100 w-md-auto">Simpan
+                        Pelanggan</button>
                 </div>
             </form>
         </div>
     </div>
+
+    <style>
+        /* Perbaikan Header Table agar tidak pecah di mobile */
+        .table th {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-soft-danger {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-add {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive Modal Helper */
+        @media (max-width: 767.98px) {
+            .border-bottom-mobile {
+                border-bottom: 2px solid #f1f5f9;
+                display: block;
+                padding-bottom: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .modal-body .table-responsive {
+                overflow-x: visible;
+            }
+
+            .modal-body td {
+                display: block;
+                width: 100% !important;
+                padding: 0.5rem 0;
+            }
+        }
+
+        .form-control:focus {
+            background-color: #fff !important;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+            border: 1px solid var(--bs-primary) !important;
+        }
+    </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -142,23 +210,29 @@
             const wrapper = document.getElementById('wrapper-pelanggan');
 
             wrapper.addEventListener('click', function(e) {
-                if (e.target.closest('.btn-add')) {
-                    // Menambahkan baris baru dengan struktur tabel yang sama agar tetap sejajar
+                const addBtn = e.target.closest('.btn-add');
+                const removeBtn = e.target.closest('.btn-remove');
+
+                if (addBtn) {
                     let newRow = `
-                    <tr class="row-pelanggan">
-                        <td>
-                            <input type="text" name="pelanggan[${i}][idpel]" class="form-control bg-light border-0" placeholder="5130..." required>
+                    <tr class="row-pelanggan border-bottom-mobile">
+                        <td class="pb-3 pb-md-2">
+                            <label class="small fw-bold text-muted d-md-none mb-1">IDPEL</label>
+                            <input type="text" name="pelanggan[${i}][idpel]" class="form-control bg-light border-0 py-2" placeholder="5130..." required>
                         </td>
-                        <td>
-                            <input type="text" name="pelanggan[${i}][nama]" class="form-control bg-light border-0" placeholder="Nama Lengkap" required>
+                        <td class="pb-3 pb-md-2">
+                            <label class="small fw-bold text-muted d-md-none mb-1">NAMA</label>
+                            <input type="text" name="pelanggan[${i}][nama]" class="form-control bg-light border-0 py-2" placeholder="Nama Lengkap" required>
                         </td>
-                        <td>
-                            <input type="text" name="pelanggan[${i}][tarif_daya]" class="form-control bg-light border-0" placeholder="R1/450 VA" required>
+                        <td class="pb-3 pb-md-2">
+                            <label class="small fw-bold text-muted d-md-none mb-1">TARIF/DAYA</label>
+                            <input type="text" name="pelanggan[${i}][tarif_daya]" class="form-control bg-light border-0 py-2" placeholder="R1/450 VA" required>
                         </td>
-                        <td>
-                            <input type="text" name="pelanggan[${i}][stand_meter]" class="form-control bg-light border-0" placeholder="00015875-00015965">
+                        <td class="pb-3 pb-md-2">
+                            <label class="small fw-bold text-muted d-md-none mb-1">STAND METER</label>
+                            <input type="text" name="pelanggan[${i}][stand_meter]" class="form-control bg-light border-0 py-2" placeholder="Awal-Akhir">
                         </td>
-                        <td class="text-end">
+                        <td class="text-end text-md-center">
                             <button type="button" class="btn btn-soft-danger btn-remove">
                                 <i class="bi bi-trash"></i>
                             </button>
@@ -168,31 +242,10 @@
                     i++;
                 }
 
-                if (e.target.closest('.btn-remove')) {
+                if (removeBtn) {
                     e.target.closest('.row-pelanggan').remove();
                 }
             });
         });
     </script>
-
-    <style>
-        .btn-soft-danger {
-            background-color: #fee2e2;
-            color: #ef4444;
-            border: none;
-        }
-
-        .btn-soft-danger:hover {
-            background-color: #fecaca;
-            color: #dc2626;
-        }
-
-        .modal-content {
-            overflow: hidden;
-        }
-
-        .form-control:focus {
-            background-color: #fff !important;
-        }
-    </style>
 @endsection

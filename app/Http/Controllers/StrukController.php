@@ -17,26 +17,27 @@ class StrukController extends Controller
     public function index(Request $request)
     {
         $list_periode = mutasi_struk::select('periode')
-                ->groupBy('periode')
-                ->orderBy('periode', 'desc') // Urutkan berdasarkan periode
-                ->get();
+            ->groupBy('periode')
+            ->orderBy('periode', 'desc')
+            ->get();
 
-        $query = mutasi_struk::with('pelanggan')->latest();
+        // Query dasar untuk tabel (dengan pagination)
+        $query = mutasi_struk::with('pelanggan')
+            ->when($request->filter_periode, function ($q) use ($request) {
+                return $q->where('periode', $request->filter_periode);
+            });
 
-        // Filter Periode
-        if ($request->filled('filter_periode')) {
-            $query->where('periode', $request->filter_periode);
-        }
+        $mutasi = $query->latest()->paginate(10);
 
-        $mutasi = $query->paginate(10);
-
-        // Hitung Total untuk Card Ringkasan (Hanya jika filter aktif)
-        $total_periode = 0;
-        if ($request->filled('filter_periode')) {
-            $total_periode = mutasi_struk::where('periode', $request->filter_periode)
-                            ->selectRaw('SUM(tagihan + biaya_admin) as total')
-                            ->first()->total;
-        }
+        // FIX: Hitung total tagihan + admin
+        // Gunakan query baru agar tidak terpengaruh pagination, 
+        // tapi tetap mengikuti filter periode jika dipilih.
+        $total_periode = mutasi_struk::when($request->filter_periode, function ($q) use ($request) {
+                return $q->where('periode', $request->filter_periode);
+            })
+            ->selectRaw('SUM(tagihan + biaya_admin) as total')
+            ->first()
+            ->total ?? 0;
 
         return view('index', compact('mutasi', 'list_periode', 'total_periode'));
     }
