@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use app\Models\pelanggan;
+use App\Models\pelanggan as Pelanggan;
 
 class PelangganSeeder extends Seeder
 {
@@ -76,7 +76,7 @@ class PelangganSeeder extends Seeder
             'stand_meter' => '00008956-00009088',
         ]);
 
-        pelanggan::create([
+        Pelanggan::create([
             'idpel' => '513030198453',
             'nama' => 'WAGIMUN',
             'tarif_daya' => 'R1/900 VA',
