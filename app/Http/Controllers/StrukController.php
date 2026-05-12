@@ -53,7 +53,7 @@ class StrukController extends Controller
             $query->where('periode', $periode);
         }])->get();
         
-        $admin = $pelanggan->first()->mutasi->first()->biaya_admin ?? 2500; // Ambil biaya admin dari data mutasi pertama, atau default 2500 jika tidak ada
+        $admin = $pelanggan->first()?->mutasi?->first()?->biaya_admin ?? 2500; // Ambil biaya admin dari data mutasi pertama, atau default 2500 jika tidak ada
         
         return view('create_struk', compact('periode', 'pelanggan', 'admin'));
     }
