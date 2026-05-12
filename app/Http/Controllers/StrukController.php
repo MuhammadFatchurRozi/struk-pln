@@ -17,9 +17,9 @@ class StrukController extends Controller
     public function index(Request $request)
     {
         $list_periode = mutasi_struk::select('periode')
-                        ->groupBy('periode')
-                        ->orderBy('created_at', 'desc')
-                        ->get();
+                ->groupBy('periode')
+                ->orderBy('periode', 'desc') // Urutkan berdasarkan periode
+                ->get();
 
         $query = mutasi_struk::with('pelanggan')->latest();
 
