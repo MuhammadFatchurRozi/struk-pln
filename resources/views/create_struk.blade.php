@@ -31,36 +31,39 @@
             <div class="card overflow-hidden border-0 shadow-sm" style="border-radius: 16px;">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead>
+                        <thead class="d-none d-md-table-header-group">
                             <tr class="table-light">
                                 <th class="ps-4 py-3">PELANGGAN</th>
                                 <th>TARIF / DAYA</th>
-                                <th class="pe-4" width="350">NOMINAL TAGIHAN (RP)</th>
+                                <th class="pe-4" width="300">NOMINAL TAGIHAN (RP)</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($pelanggan as $p)
                                 @php
-                                    // Ambil data mutasi pertama jika ada untuk periode ini
                                     $dataMutasi = $p->mutasi->first();
                                     $nominalAwal = $dataMutasi ? $dataMutasi->tagihan : 0;
                                 @endphp
 
-                                <tr>
-                                    <td class="ps-4">
+                                <tr class="responsive-row">
+                                    <td class="ps-4 py-3">
                                         <div class="fw-bold mb-0 text-dark">{{ $p->nama }}</div>
                                         <small class="text-muted">IDPEL: {{ $p->idpel }}</small>
+                                        <div class="d-md-none mt-2">
+                                            <span
+                                                class="badge bg-light text-dark border rounded-pill">{{ $p->tarif_daya }}</span>
+                                        </div>
                                     </td>
-                                    <td>
-                                        <span
+                                    <td class="d-none d-md-table-cell"> <span
                                             class="badge bg-light text-dark border rounded-pill">{{ $p->tarif_daya }}</span>
                                     </td>
-                                    <td class="pe-4">
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light border-end-0">Rp</span>
-
+                                    <td class="pe-4 py-3">
+                                        <label class="small fw-bold text-muted d-md-none mb-1">NOMINAL TAGIHAN</label>
+                                        <div class="input-group shadow-sm-mobile">
+                                            <span class="input-group-text bg-white border-end-0">Rp</span>
                                             <input type="text"
-                                                class="form-control border-start-0 bg-light input-currency" placeholder="0"
+                                                class="form-control border-start-0 bg-white input-currency fw-bold text-primary"
+                                                placeholder="0"
                                                 value="{{ $nominalAwal > 0 ? number_format($nominalAwal, 0, ',', '.') : '' }}"
                                                 data-target="real-{{ $p->idpel }}">
 
@@ -72,37 +75,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-
-                <div class="mt-4 border-top pt-4">
-                    <div class="row justify-content-center g-3">
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <button type="submit"
-                                class="btn btn-primary w-100 py-2 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 btn-action">
-                                <i class="bi bi-cloud-arrow-up-fill"></i> Simpan & Cetak
-                            </button>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <button type="submit" name="mode_cetak_saja" value="yes"
-                                class="btn btn-outline-primary w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 btn-action">
-                                <i class="bi bi-printer"></i> Langsung Cetak
-                            </button>
-                        </div>
-
-                        <div class="col-12 text-center mt-3">
-                            <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
-                                <a href="{{ route('struk.index') }}"
-                                    class="text-muted text-decoration-none fw-medium hover-underline">
-                                    <i class="bi bi-x-circle"></i> Kembali ke Daftar Tagihan
-                                </a>
-                                <span class="d-none d-md-inline text-light-emphasis">|</span>
-                                <small class="text-secondary">
-                                    Total baris data: <span class="fw-bold text-dark">{{ count($pelanggan) }}</span>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </form>
