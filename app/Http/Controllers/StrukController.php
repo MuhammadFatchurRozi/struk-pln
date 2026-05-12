@@ -47,6 +47,11 @@ class StrukController extends Controller
     public function create()
     {
         $periode = strtoupper(Carbon::now()->format('My'));
+
+        // Jika tidak ada data pelanggan, arahkan ke halaman pelanggan terlebih dahulu
+        if (Pelanggan::count() == 0) {
+            return redirect()->route('pelanggan.index')->with('error', 'Data pelanggan kosong. Silakan tambahkan pelanggan terlebih dahulu sebelum membuat struk.');
+        }
         
         // Ambil semua pelanggan dan muat relasi mutasi khusus untuk periode ini saja
         $pelanggan = Pelanggan::with(['mutasi' => function($query) use ($periode) {
