@@ -88,7 +88,7 @@ class StrukController extends Controller
             $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf_struk', compact('data'))
                 ->setPaper('a4', 'portrait');
             
-            return $pdf->stream('Struk_PLN_' . $periode . '.pdf');
+            return $pdf->download('Struk_PLN_' . $periode . '.pdf');
         }
 
         // --- LOGIKA: TOMBOL SIMPAN & CETAK ---
@@ -130,7 +130,7 @@ class StrukController extends Controller
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf_struk', ['data' => $dataToPrint])
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Struk_PLN_' . $periode . '.pdf');
+        return $pdf->download('Struk_PLN_' . $periode . '.pdf');
     }
 
     /**
@@ -147,7 +147,7 @@ class StrukController extends Controller
             ->setPaper('a4', 'portrait');
 
         // Menampilkan PDF di browser (langsung bisa diprint)
-        return $pdf->stream('Struk_PLN_' . now()->format('YmdHis') . '.pdf');
+        return $pdf->download('Struk_PLN_' . now()->format('YmdHis') . '.pdf');
     }
 
     /**
@@ -172,36 +172,5 @@ class StrukController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function generatePDF(Request $request) {
-        // Validasi Input
-        $request->validate([
-            'data.*.idpel' => 'required',
-            'data.*.nama' => 'required',
-            'data.*.biaya_pln' => 'required|numeric',
-            'data.*.admin' => 'required|numeric',
-        ]);
-
-        $dataStruk = $request->input('data');
-
-        // Hitung total dan terbilang secara otomatis
-        foreach ($dataStruk as &$item) {
-            $item['total'] = (int)$item['biaya_pln'] + (int)$item['admin'];
-            $item['terbilang_teks'] = NumberHelper::terbilang($item['total']);
-            // Format stand meter jika dipisah
-            $item['stand_meter'] = $item['stand_awal'] . '-' . $item['stand_akhir'];
-        }
-
-        $pdf = Pdf::loadView('pdf.struk', compact('dataStruk'));
-        return $pdf->stream('struk-pln-multi.pdf');
-    }
-
-    public function getPreviousData(Request $request) {
-        // Fungsi untuk mengambil data dari periode sebelumnya (Ajax)
-        $periodeLalu = $request->periode_lalu; 
-        return MutasiStruk::with('pelanggan')
-                        ->where('periode', $periodeLalu)
-                        ->get();
     }
 }
